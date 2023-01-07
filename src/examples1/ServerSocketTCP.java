@@ -1,4 +1,4 @@
-package examples;
+package examples1;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -35,7 +35,8 @@ public class ServerSocketTCP {
 			os.close();
 			
 			// 6 - Cerra la conexión
-			System.out.println("Cierre de conexión del servidor");
+			System.out.println("Cierre de conexiones");
+			peticion.close();
 			servidor.close();
 			
 		} catch (IOException e) {
