@@ -1,10 +1,12 @@
 package examples2;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.UnknownHostException;
@@ -24,16 +26,23 @@ public class ClientSocketTCP {
 
 			// 3 - Intercambiar datos con el servidor
 			// Envío de mensaje de texto al servidor
-			PrintWriter pw = new PrintWriter(os, true);
-			pw.println("Soy el cliente. Envío este mensaje al servidor");
+			OutputStreamWriter osw = new OutputStreamWriter(os, "UTF-8");
+			BufferedWriter bw = new BufferedWriter(osw);
+			bw.write("Soy el cliente. Envío este mensaje al servidor");
+			bw.newLine();
+			bw.flush();
 
 			// Leo mensajes que me envía el servidor
-			InputStreamReader isr = new InputStreamReader(is);
+			InputStreamReader isr = new InputStreamReader(is, "UTF-8");
 			BufferedReader br = new BufferedReader(isr);
 			System.out.println("El servidor me envía el siguiente mensaje: " + br.readLine());
 
 			// 4 - Cerrar flujos de lectura y escritura
+			br.close();
+			isr.close();
 			is.close();
+			bw.close();
+			osw.close();
 			os.close();
 
 			// 5 - Cerrar la conexión
