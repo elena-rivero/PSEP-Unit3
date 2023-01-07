@@ -42,6 +42,7 @@ public class ServerSocketTCP {
 			
 			// 6 - Cerra la conexión
 			System.out.println("Cierre de conexión del servidor");
+			peticion.close();
 			servidor.close();
 			
 		} catch (IOException e) {
