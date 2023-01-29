@@ -1,10 +1,12 @@
-package examplestcp1;
+package examplestcpthreads;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
@@ -14,29 +16,27 @@ public class ClientSocketTCP {
 
 		try {
 			// 1 - Crear un socket de tipo cliente indicando IP y puerto del servidor
-			System.out.println("Estableciendo conexión con el servidor");
-			Socket cliente = new Socket("192.168.1.137", 49200);
+			System.out.println("(Cliente) Estableciendo conexión con el servidor");
+			Socket cliente = new Socket("192.168.1.128", 49200);
 
 			// 2 - Abrir flujos de lectura y escritura
 			InputStream is = cliente.getInputStream();
 			OutputStream os = cliente.getOutputStream();
+			System.out.println("(Cliente) Conexión establecida");
 
 			// 3 - Intercambiar datos con el servidor
-			// Le envío mensaje al servidor
-			os.write(4);
-
+			
 			// Leo mensajes que me envía el servidor
-			InputStreamReader isr = new InputStreamReader(is);
-			BufferedReader br = new BufferedReader(isr);
-			System.out.println("El servidor me envía el siguiente mensaje: " + br.readLine());
+			System.out.println("El servidor me envía el siguiente mensaje: " + is.read());
 
 			// 4 - Cerrar flujos de lectura y escritura
 			is.close();
 			os.close();
 
 			// 5 - Cerrar la conexión
-			System.out.println("Se cierra la conexión del cliente");
+			System.out.println("(Cliente) Cerrando conexiones...");
 			cliente.close();
+			System.out.println("(Cliente) Conexiones cerradas...");
 			
 		} catch (UnknownHostException e) {
 			System.err.println("No se encuentra el host especificado.");

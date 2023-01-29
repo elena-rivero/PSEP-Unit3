@@ -20,6 +20,11 @@ public class Pruebas {
 			System.out.println(direccion2);
 			
 			System.out.println(InetAddress.getLocalHost());
+			
+			int h = 'A';
+			
+			System.out.println(h);
+			
 		} catch (UnknownHostException e) {
 			System.err.println("Se ha producido un error al intentar acceder al host");
 			e.printStackTrace();

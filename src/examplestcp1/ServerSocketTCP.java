@@ -1,8 +1,10 @@
 package examplestcp1;
 
+import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 
@@ -16,28 +18,37 @@ public class ServerSocketTCP {
 			
 			// 2 - Queda a la espera de peticiones y las acepta cuando las recibe
 			System.out.println("Servidor se encuentra a la escucha...");
-			Socket peticion = servidor.accept();
-			
-			// 3 - Abrir flujos de lectura y escritura de datos
-			InputStream is = peticion.getInputStream();
-			OutputStream os = peticion.getOutputStream();
-			
-			// 4 - Intercambiar datos con el cliente
-			// Leer mensaje enviado por el cliente e imprimirlo por consola
-			System.out.println("Mensaje enviado por el cliente: " + is.read());
-			
-			// Enviarle mensaje al cliente
-			System.out.println("Servidor envía al cliente el mensaje 100");
-			os.write(100);
-			
-			// 5 - Cerrar flujos de lectura y escritura
-			is.close();
-			os.close();
-			
+			while(true) {
+				Socket peticion = servidor.accept();
+				
+				// 3 - Abrir flujos de lectura y escritura de datos
+				InputStream is = peticion.getInputStream();
+				OutputStream os = peticion.getOutputStream();
+				
+				// 4 - Intercambiar datos con el cliente
+				// Leer mensaje enviado por el cliente e imprimirlo por consola
+				int numero = is.read();
+				System.out.println("Mensaje enviado por el cliente: " + numero);
+				
+				// Enviarle mensaje al cliente
+				System.out.println("Servidor envía al cliente el doble");
+				int doble = numero*2;
+				OutputStreamWriter osw = new OutputStreamWriter(os);
+				BufferedWriter bw = new BufferedWriter(osw);
+				bw.write(doble+"");
+				bw.newLine();
+				bw.flush();
+				
+				// 5 - Cerrar flujos de lectura y escritura
+				bw.close();
+				osw.close();
+				is.close();
+				os.close();
+			}
 			// 6 - Cerra la conexión
-			System.out.println("Cierre de conexiones");
-			peticion.close();
-			servidor.close();
+//			System.out.println("Cierre de conexiones");
+//			peticion.close();
+//			servidor.close();
 			
 		} catch (IOException e) {
 			System.err.println("Ha habido algún error en la creación del Socket Servidor");
