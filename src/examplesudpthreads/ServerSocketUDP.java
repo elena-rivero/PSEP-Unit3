@@ -23,6 +23,7 @@ public class ServerSocketUDP {
 				DatagramPacket datagramaEntrada = new DatagramPacket(buffer, buffer.length);
 
 				// 4 - Recepción del datagrama mediante el método receive
+				System.out.println("(Servidor) Esperando peticiones...");
 				socket.receive(datagramaEntrada);
 				
 				new GestorProcesos(socket, datagramaEntrada).start();
